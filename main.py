@@ -33,7 +33,7 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 
 @app.post("/api/draft", status_code=200)
-@limiter.limit("2/minute")  # limit to 10 requests per minute
+@limiter.limit("10/minute")  # limit to 10 requests per minute
 async def draft_contract(details: ContractDetails, request: Request):
     """
     This function is the main endpoint that receives the contract details,
