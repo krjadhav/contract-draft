@@ -42,7 +42,6 @@ async def draft_contract(details: ContractDetails, request: Request):
     hash_key = hashlib.sha256(
         f"{details.agreement_type}-{details.governing_law}".encode()
     ).hexdigest()
-    print(f"hash_key ={hash_key}")
     template = None
     template = read_from_redis(hash_key)
     if not template:
