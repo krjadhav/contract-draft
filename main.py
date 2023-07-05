@@ -42,10 +42,11 @@ async def draft_contract(details: ContractDetails, request: Request):
     hash_key = hashlib.sha256(
         f"{details.agreement_type}-{details.governing_law}".encode()
     ).hexdigest()
+
     template = None
     template = read_from_redis(hash_key)
+
     if not template:
-        # template = employment_california_template
         template = generate_contract(details)
         cache_in_redis(hash_key, template)
 
