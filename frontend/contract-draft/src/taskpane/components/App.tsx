@@ -73,7 +73,7 @@ export default class App extends React.Component<AppProps, AppState> {
     this.setState({ isGenerating: true, errorMessage: null }); // Reset error message
     const formattedDate = this.formatDate(effectiveDate);
     try {
-
+      // Calling the backend API
       const response = await fetch('http://localhost:8000/api/draft', {
         method: 'POST',
         body: JSON.stringify({
@@ -88,6 +88,7 @@ export default class App extends React.Component<AppProps, AppState> {
       const responseData = await response.json();
       this.setState({ isGenerating: false })
 
+      // Cleaning the data
       let message = responseData.message;
       console.log("message", message)
       message = message.replace(/\\n/g, '\n');
@@ -101,7 +102,7 @@ export default class App extends React.Component<AppProps, AppState> {
       message = message.replace(/},/g, ',');
       message = message.replace(/\\u/g, '');
 
-
+      // Inserting formatted contract into Word
       return Word.run(async (context) => {
         const lines = message.split('\n');
         lines.forEach((line, index) => {
