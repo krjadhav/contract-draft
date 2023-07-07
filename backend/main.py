@@ -14,8 +14,7 @@ from starlette.status import HTTP_429_TOO_MANY_REQUESTS
 from auth import (OAuth2PasswordRequestForm, authenticate_user,
                   create_access_token, get_current_active_user,
                   get_password_hash)
-from db import (get_contract, get_contracts, insert_user, save_contract,
-                test_get_user, upsert_user)
+from db import get_contract, get_contracts, save_contract, upsert_user
 from models import (Contract, ContractClause, ContractDetails,
                     ContractResponse, ContractSave, Token, User, UserInDB,
                     UserWithContracts)
@@ -42,7 +41,7 @@ app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 
-@app.post("/api/draft", status_code=200)
+@app.post("/api/contracts/draft", status_code=200)
 @limiter.limit("10/minute")  # limit to 10 requests per minute
 async def draft_contract(
     details: ContractDetails,
@@ -74,6 +73,7 @@ async def draft_contract(
 @limiter.limit("10/minute")  # limit to 10 requests per minute
 async def get_clause(
     prompt: ContractClause,
+    request: Request,
     current_user: UserWithContracts = Depends(get_current_active_user),
 ):
     clause = generate_clause(prompt.text)
