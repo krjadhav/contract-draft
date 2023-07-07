@@ -9,7 +9,7 @@ load_dotenv()  # load environment variables from .env file
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-def generate_prompt(details):
+def generate_draft_prompt(details):
     """
     This function generates the prompt for the OpenAI API call.
     """
@@ -22,13 +22,23 @@ def generate_prompt(details):
     return prompt
 
 
-def generate_contract(details):
+def generate_clause_prompt(user_prompt):
+    """
+    This function generates the clause for the OpenAI API call
+    """
+    prompt = f"""
+    Generate a legal clause to {user_prompt}.
+    Provide a well-drafted clause that is clear, concise, and legally sound.
+    Keep it under 200 words.
+    """
+    return prompt
+
+
+def execute_prompt(prompt):
     """
     This function calls the OpenAI API to generate a
     contract with the provided details.
     """
-    prompt = generate_prompt(details)
-
     try:
         openai_response = openai.Completion.create(
             engine="text-davinci-003",
@@ -39,25 +49,49 @@ def generate_contract(details):
 
     except openai.error.Timeout as e:
         # Handle timeout error, e.g. retry or log
-        raise HTTPException(status_code=500, detail=f"OpenAI API request timed out: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"OpenAI API request timed out: {e}"
+        )
     except openai.error.APIError as e:
         # Handle API error, e.g. retry or log
-        raise HTTPException(status_code=500, detail=f"OpenAI API returned an API Error: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"OpenAI API returned an API Error: {e}"
+        )
     except openai.error.APIConnectionError as e:
         # Handle connection error, e.g. check network or log
-        raise HTTPException(status_code=500, detail=f"OpenAI API request failed to connect: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"OpenAI API request failed to connect: {e}"
+        )
     except openai.error.InvalidRequestError as e:
         # Handle invalid request error, e.g. validate parameters or log
-        raise HTTPException(status_code=500, detail=f"OpenAI API request was invalid: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"OpenAI API request was invalid: {e}"
+        )
     except openai.error.AuthenticationError as e:
         # Handle authentication error, e.g. check credentials or log
-        raise HTTPException(status_code=500, detail=f"OpenAI API request was not authorized: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"OpenAI API request was not authorized: {e}"
+        )
     except openai.error.PermissionError as e:
         # Handle permission error, e.g. check scope or log
-        raise HTTPException(status_code=500, detail=f"OpenAI API request was not permitted: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"OpenAI API request was not permitted: {e}"
+        )
     except openai.error.RateLimitError as e:
         # Handle rate limit error, e.g. wait or log
-        raise HTTPException(status_code=500, detail=f"OpenAI API request exceeded rate limit: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"OpenAI API request exceeded rate limit: {e}"
+        )
+
+
+def generate_contract(details):
+    prompt = generate_draft_prompt(details)
+    return execute_prompt(prompt)
+
+
+def generate_clause(user_prompt):
+    prompt = generate_clause_prompt(user_prompt)
+    return execute_prompt(prompt)
 
 
 def fill_in_template(template, details):
@@ -69,5 +103,7 @@ def fill_in_template(template, details):
     print(f"template = {type(template)}, {template}")
     template = re.sub(r"\[PARTY A\]", details.party_a, template, flags=re.IGNORECASE)
     template = re.sub(r"\[PARTY B\]", details.party_b, template, flags=re.IGNORECASE)
-    template = re.sub(r"\[EFFECTIVE DATE\]", details.effective_date, template, flags=re.IGNORECASE)
+    template = re.sub(
+        r"\[EFFECTIVE DATE\]", details.effective_date, template, flags=re.IGNORECASE
+    )
     return template
