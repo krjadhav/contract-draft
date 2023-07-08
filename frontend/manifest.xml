@@ -11,7 +11,8 @@
   <SupportUrl DefaultValue="https://www.contoso.com/help"/>
   <AppDomains>
     <AppDomain>https://www.contoso.com</AppDomain>
-    <AppDomain>http://localhost:8000</AppDomain>
+    <AppDomain>https://contractdraft-1-c2320655.deta.app</AppDomain>
+    <AppDomain>https://contractdraft-1-c2320655.deta.app/api/draft</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Document"/>

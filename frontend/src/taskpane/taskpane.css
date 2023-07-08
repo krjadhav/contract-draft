@@ -38,7 +38,7 @@
     align-items: center;
     -webkit-flex: 1 0 0;
     flex: 1 0 0;
-    padding: 10px 20px;
+    padding: 10px 0px;
  }
  
  .ms-welcome__main > h2 {
@@ -88,6 +88,8 @@ b {
   .inputFields {
     width: 100%;  /* Makes sure the input field takes the full width of the container */
     text-align: left;
+    padding-left: 10%;
+    padding-right: 10%;
   }
   .datePickerWithMargin {
     margin-bottom: 50px;
@@ -101,3 +103,31 @@ b {
     height: 100%;
   }
   
+  .buttonStyles {
+    width: 80%; /* Adjust this as needed */
+    height: 40px; /* Adjust this as needed */
+    margin-top: 50px; /* Adjust this as needed */
+    display: flex;
+    justify-content: center;
+    /* Center the button */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .docHistory {
+    width: 80%; /* Adjust this as needed */
+    height: 40px; /* Adjust this as needed */
+    margin-top: 10px; /* Adjust this as needed */
+    display: flex;
+    justify-content: center;
+    /* Center the button */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .paragraphStyles {
+    width: 80%; /* Adjust this as needed */
+    /* Center the paragraph */
+    margin-left: auto;
+    margin-right: auto;
+  }
