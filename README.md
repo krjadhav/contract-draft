@@ -2,6 +2,8 @@
 
 Contract Drafter is an Office Word Add-in Task Pane project implemented using the React framework in TypeScript. It is designed to simplify the process of drafting contracts by leveraging a user-friendly interface and a range of features designed to streamline the document creation process. 
 
+<img width="1432" alt="contract-draft" src="https://github.com/krjadhav/contract-draft/assets/14070843/80e7aa98-cc2a-4886-8660-fb9322ac6b6f">
+
 ## Features
 
 - User authentication.
