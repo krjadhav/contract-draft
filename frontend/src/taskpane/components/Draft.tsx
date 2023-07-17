@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Dropdown, TextField, DatePicker, DefaultButton } from "@fluentui/react";
 import HashLoader from 'react-spinners/HashLoader';
 
+
 interface State {
     isGenerating: boolean;
     agreementType: string | number | undefined;

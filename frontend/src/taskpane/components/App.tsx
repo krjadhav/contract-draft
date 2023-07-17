@@ -54,11 +54,13 @@ export default class App extends React.Component<AppProps, AppState> {
       partyA: '',
       partyB: '',
       effectiveDate: null,
+      token: '',
       formValid: false,
       isSignedIn: false,
       showHomepage: false,
       showLibrary: false,
       showClause: false,
+      showDraft: false,
       isGenerating: false,
       historyData: [],
     };
